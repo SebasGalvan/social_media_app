@@ -5,6 +5,9 @@ from django.contrib.auth.models import User, auth
 
 
 # Create your views here.
+from .models import Profile
+
+
 def index(request):
     return render(request, 'index.html')
 
@@ -26,9 +29,20 @@ def signup(request):
             else:
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
+
+                #Log user in and redirect to settings page
+                #create a Profile ojbect for the new user
+
+                user_model = User.objects.get(username=username)
+                new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
+                new_profile.save()
+                # return redirect('signin')
+                return render(request, 'signin.html')
+
         else:
             messages.info(request, 'Password not matching')
             return redirect('signup')
+
 
         return render(request, 'signin.html')
     else:
