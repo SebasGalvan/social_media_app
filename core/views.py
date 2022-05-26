@@ -43,7 +43,6 @@ def signup(request):
             messages.info(request, 'Password not matching')
             return redirect('signup')
 
-
         return render(request, 'signin.html')
     else:
         return render(request, 'signup.html')
