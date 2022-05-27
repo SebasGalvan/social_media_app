@@ -54,7 +54,12 @@ def signin(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        print(f'{username} {password}')
-        return render(request, 'signin.html')
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            messages.info(request, 'Credentials Invalid')
+            return render('signin.html')
     else:
         return render(request, 'signin.html')
