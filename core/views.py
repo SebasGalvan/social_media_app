@@ -46,3 +46,15 @@ def signup(request):
         return render(request, 'signin.html')
     else:
         return render(request, 'signup.html')
+
+
+def signin(request):
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        print(f'{username} {password}')
+        return render(request, 'signin.html')
+    else:
+        return render(request, 'signin.html')
