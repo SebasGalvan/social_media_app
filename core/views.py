@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User, auth
@@ -11,6 +12,10 @@ from .models import Profile
 def index(request):
     return render(request, 'index.html')
 
+
+@login_required(login_url='signin')
+def upload(request):
+    return HttpResponse('<h1>Upload View</h1>')
 
 def signup(request):
     if request.method == 'POST':
