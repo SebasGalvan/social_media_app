@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-from .models import Profile
+from .models import Profile, Post
 
 
 @login_required(login_url='signin')
@@ -17,7 +17,16 @@ def index(request):
 
 @login_required(login_url='signin')
 def upload(request):
-    return HttpResponse('<h1>Upload View</h1>')
+
+    if request.method == 'POST':
+        user = request.user.username
+        image = request.FILES.get('image_upload')
+        caption = request.POST['caption']
+        new_post = Post.objects.create(user=user, image=image, caption=caption)
+        new_post.save()
+        return redirect('/')
+    else:
+        return redirect('/')
 
 def signup(request):
     if request.method == 'POST':
